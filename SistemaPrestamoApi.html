@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API - Sistema de Préstamos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+        .parameters, .responses {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Documentación de la API - Sistema de Préstamos</h1>
+<p>API para la gestión en tiempo real de un sistema de préstamos.</p>
+
+<h2>Autenticación</h2>
+
+<div class="endpoint">
+    <h3>POST /auth/login</h3>
+    <p><strong>Resumen:</strong> Autenticación de usuarios</p>
+    <pre><code>Request Body:
+{
+    "username": "string",
+    "password": "string"
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Inicio de sesión exitoso</li>
+            <li><code>401:</code> Credenciales incorrectas</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>POST /auth/register</h3>
+    <p><strong>Resumen:</strong> Registro de nuevos usuarios</p>
+    <pre><code>Request Body:
+{
+    "username": "string",
+    "password": "string",
+    "role": "string"
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>201:</code> Registro exitoso</li>
+            <li><code>400:</code> Datos inválidos</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Usuarios</h2>
+
+<div class="endpoint">
+    <h3>GET /users</h3>
+    <p><strong>Resumen:</strong> Obtener lista de usuarios</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Lista de usuarios recuperada</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /users/{userId}</h3>
+    <p><strong>Resumen:</strong> Obtener detalles de un usuario específico</p>
+    <pre><code>Parameters:
+userId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Usuario encontrado</li>
+            <li><code>404:</code> Usuario no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>PUT /users/{userId}</h3>
+    <p><strong>Resumen:</strong> Editar información de un usuario</p>
+    <pre><code>Parameters:
+userId: string
+
+Request Body:
+{
+    "username": "string",
+    "role": "string",
+    "permissions": ["string"]
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Usuario actualizado</li>
+            <li><code>404:</code> Usuario no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>DELETE /users/{userId}</h3>
+    <p><strong>Resumen:</strong> Eliminar un usuario</p>
+    <pre><code>Parameters:
+userId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>204:</code> Usuario eliminado</li>
+            <li><code>404:</code> Usuario no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Préstamos</h2>
+
+<div class="endpoint">
+    <h3>POST /loans</h3>
+    <p><strong>Resumen:</strong> Crear un nuevo contrato de préstamo</p>
+    <pre><code>Request Body:
+{
+    "amount": number,
+    "interestRate": number,
+    "duration": integer,
+    "borrowerId": "string",
+    "collateral": "string",
+    "documents": ["string"]
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>201:</code> Contrato de préstamo creado</li>
+            <li><code>400:</code> Datos inválidos</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /loans</h3>
+    <p><strong>Resumen:</strong> Obtener una lista de todos los préstamos</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Lista de préstamos recuperada</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /loans/{loanId}</h3>
+    <p><strong>Resumen:</strong> Obtener detalles de un préstamo específico</p>
+    <pre><code>Parameters:
+loanId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Préstamo encontrado</li>
+            <li><code>404:</code> Préstamo no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>PUT /loans/{loanId}</h3>
+    <p><strong>Resumen:</strong> Editar información de un contrato de préstamo</p>
+    <pre><code>Parameters:
+loanId: string
+
+Request Body:
+{
+    "amount": number,
+    "interestRate": number,
+    "duration": integer,
+    "borrowerId": "string",
+    "collateral": "string",
+    "documents": ["string"]
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Préstamo actualizado</li>
+            <li><code>404:</code> Préstamo no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>DELETE /loans/{loanId}</h3>
+    <p><strong>Resumen:</strong> Eliminar un contrato de préstamo</p>
+    <pre><code>Parameters:
+loanId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>204:</code> Préstamo eliminado</li>
+            <li><code>404:</code> Préstamo no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Artículos Pignorados</h2>
+
+<div class="endpoint">
+    <h3>POST /collaterals</h3>
+    <p><strong>Resumen:</strong> Registrar un nuevo artículo pignorado</p>
+    <pre><code>Request Body:
+{
+    "description": "string",
+    "value": number,
+    "loanId": "string"
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>201:</code> Artículo pignorado creado</li>
+            <li><code>400:</code> Datos inválidos</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /collaterals</h3>
+    <p><strong>Resumen:</strong> Obtener una lista de artículos pignorados</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Lista de artículos pignorados recuperada</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /collaterals/{collateralId}</h3>
+    <p><strong>Resumen:</strong> Obtener detalles de un artículo pignorado específico</p>
+    <pre><code>Parameters:
+collateralId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Artículo pignorado encontrado</li>
+            <li><code>404:</code> Artículo pignorado no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>PUT /collaterals/{collateralId}</h3>
+    <p><strong>Resumen:</strong> Editar información de un artículo pignorado</p>
+    <pre><code>Parameters:
+collateralId: string
+
+Request Body:
+{
+    "description": "string",
+    "value": number
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Artículo pignorado actualizado</li>
+            <li><code>404:</code> Artículo pignorado no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>DELETE /collaterals/{collateralId}</h3>
+    <p><strong>Resumen:</strong> Eliminar un artículo pignorado</p>
+    <pre><code>Parameters:
+collateralId: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>204:</code> Artículo pignorado eliminado</li>
+            <li><code>404:</code> Artículo pignorado no encontrado</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Transacciones</h2>
+
+<div class="endpoint">
+    <h3>GET /transactions</h3>
+    <p><strong>Resumen:</strong> Obtener un resumen de todas las transacciones</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Lista de transacciones recuperada</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>POST /transactions</h3>
+    <p><strong>Resumen:</strong> Registrar una nueva transacción de pago</p>
+    <pre><code>Request Body:
+{
+    "amount": number,
+    "loanId": "string",
+    "date": "string"
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>201:</code> Transacción registrada</li>
+            <li><code>400:</code> Datos inválidos</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /transactions/vencidas</h3>
+    <p><strong>Resumen:</strong> Obtener una lista de transacciones de préstamos vencidos</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Lista de transacciones vencidas recuperada</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Reportes</h2>
+
+<div class="endpoint">
+    <h3>GET /reports/financial-summary</h3>
+    <p><strong>Resumen:</strong> Obtener un resumen financiero</p>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Resumen financiero recuperado</li>
+        </ul>
+    </div>
+</div>
+
+<div class="endpoint">
+    <h3>GET /reports/excel</h3>
+    <p><strong>Resumen:</strong> Descargar datos en un archivo Excel</p>
+    <pre><code>Parameters:
+reportType: string</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>200:</code> Archivo Excel generado</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Soporte</h2>
+
+<div class="endpoint">
+    <h3>POST /support/message</h3>
+    <p><strong>Resumen:</strong> Enviar un mensaje para más información</p>
+    <pre><code>Request Body:
+{
+    "name": "string",
+    "email": "string",
+    "message": "string"
+}</code></pre>
+    <div class="responses">
+        <h4>Respuestas:</h4>
+        <ul>
+            <li><code>201:</code> Mensaje enviado</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
