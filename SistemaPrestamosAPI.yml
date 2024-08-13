@@ -3,12 +3,31 @@ info:
   title: Sistema de Préstamos API
   description: API para la gestión en tiempo real de un sistema de préstamos.
   version: 1.0.0
+
 servers:
   - url: http://localhost:8000/api
+
+tags:
+  - name: Autenticación
+    description: Manejo de usuarios y autenticación
+  - name: Usuarios
+    description: Administración de usuarios
+  - name: Préstamos
+    description: Gestión de contratos de préstamos
+  - name: Artículos Pignorados
+    description: Registro y gestión de artículos pignorados
+  - name: Transacciones
+    description: Seguimiento de transacciones de préstamos
+  - name: Reportes
+    description: Generación de reportes financieros
+  - name: Soporte
+    description: Envío de mensajes para soporte
 
 paths:
   /auth/login:
     post:
+      tags:
+        - Autenticación
       summary: Autenticación de usuarios
       requestBody:
         required: true
@@ -29,6 +48,8 @@ paths:
 
   /auth/register:
     post:
+      tags:
+        - Autenticación
       summary: Registro de nuevos usuarios
       requestBody:
         required: true
@@ -51,6 +72,8 @@ paths:
 
   /users:
     get:
+      tags:
+        - Usuarios
       summary: Obtener lista de usuarios
       responses:
         '200':
@@ -71,6 +94,8 @@ paths:
 
   /users/{userId}:
     get:
+      tags:
+        - Usuarios
       summary: Obtener detalles de un usuario específico
       parameters:
         - in: path
@@ -85,6 +110,8 @@ paths:
           description: Usuario no encontrado
 
     put:
+      tags:
+        - Usuarios
       summary: Editar información de un usuario
       parameters:
         - in: path
@@ -114,6 +141,8 @@ paths:
           description: Usuario no encontrado
 
     delete:
+      tags:
+        - Usuarios
       summary: Eliminar un usuario
       parameters:
         - in: path
@@ -129,6 +158,8 @@ paths:
 
   /loans:
     post:
+      tags:
+        - Préstamos
       summary: Crear un nuevo contrato de préstamo
       requestBody:
         required: true
@@ -158,6 +189,8 @@ paths:
           description: Datos inválidos
 
     get:
+      tags:
+        - Préstamos
       summary: Obtener una lista de todos los préstamos
       parameters:
         - in: query
@@ -189,6 +222,8 @@ paths:
 
   /loans/{loanId}:
     get:
+      tags:
+        - Préstamos
       summary: Obtener detalles de un préstamo específico
       parameters:
         - in: path
@@ -203,6 +238,8 @@ paths:
           description: Préstamo no encontrado
 
     put:
+      tags:
+        - Préstamos
       summary: Editar información de un contrato de préstamo
       parameters:
         - in: path
@@ -238,6 +275,8 @@ paths:
           description: Préstamo no encontrado
 
     delete:
+      tags:
+        - Préstamos
       summary: Eliminar un contrato de préstamo
       parameters:
         - in: path
@@ -253,6 +292,8 @@ paths:
 
   /collaterals:
     post:
+      tags:
+        - Artículos Pignorados
       summary: Registrar un nuevo artículo pignorado
       requestBody:
         required: true
@@ -274,6 +315,8 @@ paths:
           description: Datos inválidos
 
     get:
+      tags:
+        - Artículos Pignorados
       summary: Obtener una lista de artículos pignorados
       responses:
         '200':
@@ -289,9 +332,13 @@ paths:
                       type: string
                     description:
                       type: string
+                    value:
+                      type: number
 
   /collaterals/{collateralId}:
     get:
+      tags:
+        - Artículos Pignorados
       summary: Obtener detalles de un artículo pignorado específico
       parameters:
         - in: path
@@ -306,6 +353,8 @@ paths:
           description: Artículo pignorado no encontrado
 
     put:
+      tags:
+        - Artículos Pignorados
       summary: Editar información de un artículo pignorado
       parameters:
         - in: path
@@ -331,6 +380,8 @@ paths:
           description: Artículo pignorado no encontrado
 
     delete:
+      tags:
+        - Artículos Pignorados
       summary: Eliminar un artículo pignorado
       parameters:
         - in: path
@@ -346,6 +397,8 @@ paths:
 
   /transactions:
     get:
+      tags:
+        - Transacciones
       summary: Obtener un resumen de todas las transacciones
       parameters:
         - in: query
@@ -377,6 +430,8 @@ paths:
                       format: date-time
 
     post:
+      tags:
+        - Transacciones
       summary: Registrar una nueva transacción de pago
       requestBody:
         required: true
@@ -400,6 +455,8 @@ paths:
 
   /transactions/vencidas:
     get:
+      tags:
+        - Transacciones
       summary: Obtener una lista de transacciones de préstamos vencidos
       responses:
         '200':
@@ -407,6 +464,8 @@ paths:
 
   /reports/financial-summary:
     get:
+      tags:
+        - Reportes
       summary: Obtener un resumen financiero
       responses:
         '200':
@@ -423,6 +482,8 @@ paths:
 
   /reports/excel:
     get:
+      tags:
+        - Reportes
       summary: Descargar datos en un archivo Excel
       parameters:
         - in: query
@@ -440,6 +501,8 @@ paths:
 
   /support/message:
     post:
+      tags:
+        - Soporte
       summary: Enviar un mensaje para más información
       requestBody:
         required: true
@@ -457,5 +520,3 @@ paths:
       responses:
         '201':
           description: Mensaje enviado
-
-
