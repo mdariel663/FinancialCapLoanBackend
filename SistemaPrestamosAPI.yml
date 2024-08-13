@@ -1,0 +1,461 @@
+openapi: 3.0.0
+info:
+  title: Sistema de Préstamos API
+  description: API para la gestión en tiempo real de un sistema de préstamos.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+
+paths:
+  /auth/login:
+    post:
+      summary: Autenticación de usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+        '401':
+          description: Credenciales incorrectas
+
+  /auth/register:
+    post:
+      summary: Registro de nuevos usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+      responses:
+        '201':
+          description: Registro exitoso
+        '400':
+          description: Datos inválidos
+
+  /users:
+    get:
+      summary: Obtener lista de usuarios
+      responses:
+        '200':
+          description: Lista de usuarios recuperada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    username:
+                      type: string
+                    role:
+                      type: string
+
+  /users/{userId}:
+    get:
+      summary: Obtener detalles de un usuario específico
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario encontrado
+        '404':
+          description: Usuario no encontrado
+
+    put:
+      summary: Editar información de un usuario
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                role:
+                  type: string
+                permissions:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Usuario actualizado
+        '404':
+          description: Usuario no encontrado
+
+    delete:
+      summary: Eliminar un usuario
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Usuario eliminado
+        '404':
+          description: Usuario no encontrado
+
+  /loans:
+    post:
+      summary: Crear un nuevo contrato de préstamo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                interestRate:
+                  type: number
+                duration:
+                  type: integer
+                borrowerId:
+                  type: string
+                collateral:
+                  type: string
+                documents:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Contrato de préstamo creado
+        '400':
+          description: Datos inválidos
+
+    get:
+      summary: Obtener una lista de todos los préstamos
+      parameters:
+        - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: search
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de préstamos recuperada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    amount:
+                      type: number
+                    status:
+                      type: string
+
+  /loans/{loanId}:
+    get:
+      summary: Obtener detalles de un préstamo específico
+      parameters:
+        - in: path
+          name: loanId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Préstamo encontrado
+        '404':
+          description: Préstamo no encontrado
+
+    put:
+      summary: Editar información de un contrato de préstamo
+      parameters:
+        - in: path
+          name: loanId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                interestRate:
+                  type: number
+                duration:
+                  type: integer
+                borrowerId:
+                  type: string
+                collateral:
+                  type: string
+                documents:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Préstamo actualizado
+        '404':
+          description: Préstamo no encontrado
+
+    delete:
+      summary: Eliminar un contrato de préstamo
+      parameters:
+        - in: path
+          name: loanId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Préstamo eliminado
+        '404':
+          description: Préstamo no encontrado
+
+  /collaterals:
+    post:
+      summary: Registrar un nuevo artículo pignorado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                value:
+                  type: number
+                loanId:
+                  type: string
+      responses:
+        '201':
+          description: Artículo pignorado creado
+        '400':
+          description: Datos inválidos
+
+    get:
+      summary: Obtener una lista de artículos pignorados
+      responses:
+        '200':
+          description: Lista de artículos pignorados recuperada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    description:
+                      type: string
+
+  /collaterals/{collateralId}:
+    get:
+      summary: Obtener detalles de un artículo pignorado específico
+      parameters:
+        - in: path
+          name: collateralId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Artículo pignorado encontrado
+        '404':
+          description: Artículo pignorado no encontrado
+
+    put:
+      summary: Editar información de un artículo pignorado
+      parameters:
+        - in: path
+          name: collateralId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                value:
+                  type: number
+      responses:
+        '200':
+          description: Artículo pignorado actualizado
+        '404':
+          description: Artículo pignorado no encontrado
+
+    delete:
+      summary: Eliminar un artículo pignorado
+      parameters:
+        - in: path
+          name: collateralId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Artículo pignorado eliminado
+        '404':
+          description: Artículo pignorado no encontrado
+
+  /transactions:
+    get:
+      summary: Obtener un resumen de todas las transacciones
+      parameters:
+        - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: dateRange
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de transacciones recuperada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    amount:
+                      type: number
+                    date:
+                      type: string
+                      format: date-time
+
+    post:
+      summary: Registrar una nueva transacción de pago
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                loanId:
+                  type: string
+                date:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Transacción registrada
+        '400':
+          description: Datos inválidos
+
+  /transactions/vencidas:
+    get:
+      summary: Obtener una lista de transacciones de préstamos vencidos
+      responses:
+        '200':
+          description: Lista de transacciones vencidas recuperada
+
+  /reports/financial-summary:
+    get:
+      summary: Obtener un resumen financiero
+      responses:
+        '200':
+          description: Resumen financiero recuperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalLoans:
+                    type: number
+                  totalDebts:
+                    type: number
+
+  /reports/excel:
+    get:
+      summary: Descargar datos en un archivo Excel
+      parameters:
+        - in: query
+          name: reportType
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Archivo Excel generado
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+
+  /support/message:
+    post:
+      summary: Enviar un mensaje para más información
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '201':
+          description: Mensaje enviado
+
+
